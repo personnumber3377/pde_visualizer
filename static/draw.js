@@ -16,8 +16,14 @@ canvas.addEventListener("mousemove", (e) => {
 function getGrid() {
   const img = ctx.getImageData(0, 0, canvas.width, canvas.height);
   const grid = [];
-  for (let i = 0; i < img.data.length; i += 4) {
-    grid.push(img.data[i] ? 1 : 0); // convert color → binary
+
+  for (let y = 0; y < canvas.height; y++) {
+    const row = [];
+    for (let x = 0; x < canvas.width; x++) {
+      const idx = 4 * (y * canvas.width + x);
+      row.push(img.data[idx] > 0 ? 1 : 0);
+    }
+    grid.push(row);
   }
   return grid;
 }

@@ -13,3 +13,19 @@ async function step() {
   render(result);
 }
 
+async function simulate() {
+  const grid = getGrid();
+  const response = await fetch("/solve_heat", {
+    method: "POST",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({
+      grid: grid,
+      dt: 0.1
+    })
+  });
+
+  const newGrid = await response.json();
+  render(newGrid);
+
+  requestAnimationFrame(simulate);
+}
