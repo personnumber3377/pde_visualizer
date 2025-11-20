@@ -1,7 +1,12 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, send_from_directory
 import numpy as np
+import os
 
-app = Flask(__name__)
+app = Flask(__name__, static_url_path="", static_folder="../static")
+
+@app.route("/")
+def index():
+    return send_from_directory(app.static_folder, "index.html")
 
 @app.route("/solve_heat", methods=["POST"])
 def solve_heat():
