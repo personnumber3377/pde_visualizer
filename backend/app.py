@@ -10,6 +10,7 @@ def index():
 @app.route("/solve_heat", methods=["POST"])
 def solve_heat():
     data = request.json
+    print("Got this grid here: "+str(data["grid"]))
     u = np.array(data["grid"])
     dt = data.get("dt", 0.01)
 
@@ -20,6 +21,8 @@ def solve_heat():
         np.roll(u, -1, axis=1) -
         4 * u
     )
+
+    print("Returning this here: "+str((u + dt * laplace).tolist()))
 
     return jsonify((u + dt * laplace).tolist())
 
