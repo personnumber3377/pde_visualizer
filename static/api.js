@@ -1,3 +1,36 @@
+
+
+
+let symT = 0.0;
+let symDt = 0.01;
+let symRunning = false;
+
+async function stepSymbolic() {
+  const response = await fetch(`/symbolic_heat?t=${symT}`);
+  const grid = await response.json();
+  render(grid);
+
+  symT += symDt;
+
+  if (symRunning) {
+    requestAnimationFrame(stepSymbolic);
+  }
+}
+
+function startSymbolic() {
+  if (!symRunning) {
+    symRunning = true;
+    symT = 0.0;
+    stepSymbolic();
+  }
+}
+
+function stopSymbolic() {
+  symRunning = false;
+}
+
+
+
 async function step() {
   const grid = getGrid();
   const response = await fetch("/solve_heat", {
